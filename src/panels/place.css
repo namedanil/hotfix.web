@@ -166,7 +166,6 @@
 }
 
 .Place__order-disable {
-  background-color: gray;
   pointer-events: none;
 }
 
