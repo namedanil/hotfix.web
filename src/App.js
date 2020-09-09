@@ -162,10 +162,10 @@ const App = () => {
 						order={order}
 						orderStatuses={orderStatuses}
 						foodAreas={FOOD_AREAS}
-						setFinishedOrder={({ itemId }) => {
+						setFinishedOrder={({ itemId, status }) => {
 							const nextStatuses = {...orderStatuses};
 
-							nextStatuses[itemId] = 'CANCELED';
+							nextStatuses[itemId] = status ? status : 'DONE';
 
 							setOrderStatuses(nextStatuses);
 							localStorage.setItem('orderStatuses', JSON.stringify(nextStatuses));
