@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import accounting from 'accounting';
 
@@ -9,9 +9,11 @@ import './place.css';
 
 
 const Basket = ({ match: { params: { areaId, itemId }}, foodAreas, order }) => {
-  const [ faster, setFaster ] = useState(true);
-  const [ time, setTime ] = useState('');
-  const [ selfService, setSelfService ] = useState(false);
+  const lastParams = JSON.parse(localStorage.getItem('lastParams'));
+
+  const [ faster, setFaster ] = useState(lastParams?.faster || true);
+  const [ time, setTime ] = useState(lastParams?.time || '');
+  const [ selfService, setSelfService ] = useState(lastParams?.selfService || false);
   const area = foodAreas.filter(area => area.id === areaId)[0];
   const item = area.items.filter(item => item.id === itemId)[0];
 
@@ -99,6 +101,9 @@ const Basket = ({ match: { params: { areaId, itemId }}, foodAreas, order }) => {
         <Link
           className="Place__change-product"
           to={`/place/${areaId}/${itemId}`}
+          onClick={() => {
+            localStorage.setItem('lastParams', JSON.stringify({selfService, faster, time}))
+          }}
         >
           Изменить
         </Link>
@@ -148,7 +153,9 @@ const Basket = ({ match: { params: { areaId, itemId }}, foodAreas, order }) => {
         </div>
       </div>
       <footer className="Place__footer">
-        <Link to={`/order/${area.id}/${item.id}`} className="Place__order">
+        <Link to={`/order/${area.id}/${item.id}`} className="Place__order" onClick={() => {
+          localStorage.setItem('lastParams', null);
+        }}>
           Оплатить {price}
         </Link>
       </footer>
