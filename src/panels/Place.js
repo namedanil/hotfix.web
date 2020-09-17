@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import accounting from 'accounting';
-// import PropTypes from 'prop-types';
 
 import edit from '../img/edit.svg';
 import './place.css';
